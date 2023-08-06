@@ -1,16 +1,24 @@
-const { getAnimations } = require("../getStyles");
-const { flexLayout, encodeHTML } = require("../common/utils");
+import { getAnimations } from "../getStyles.js";
+import { encodeHTML, flexLayout } from "./utils.js";
 
 class Card {
   /**
-   * @param {object} args
-   * @param {number?=} args.width
-   * @param {number?=} args.height
-   * @param {number?=} args.border_radius
-   * @param {string?=} args.customTitle
-   * @param {string?=} args.defaultTitle
-   * @param {string?=} args.titlePrefixIcon
-   * @param {ReturnType<import('../common/utils').getCardColors>?=} args.colors
+   * Creates a new card instance.
+   *
+   * @param {object} args Card arguments.
+   * @param {number?=} args.width Card width.
+   * @param {number?=} args.height Card height.
+   * @param {number?=} args.border_radius Card border radius.
+   * @param {string?=} args.customTitle Card custom title.
+   * @param {string?=} args.defaultTitle Card default title.
+   * @param {string?=} args.titlePrefixIcon Card title prefix icon.
+   * @param {object?=} args.colors Card colors arguments.
+   * @param {string} args.colors.titleColor Card title color.
+   * @param {string} args.colors.textColor Card text color.
+   * @param {string} args.colors.iconColor Card icon color.
+   * @param {string|Array} args.colors.bgColor Card background color.
+   * @param {string} args.colors.borderColor Card border color.
+   * @returns {Card} Card instance.
    */
   constructor({
     width = 100,
@@ -46,12 +54,18 @@ class Card {
     this.a11yDesc = "";
   }
 
+  /**
+   * @returns {void}
+   */
   disableAnimations() {
     this.animations = false;
   }
 
   /**
-   * @param {{title: string, desc: string}} prop
+   * @param {Object} props The props object.
+   * @param {string} props.title Accessibility title.
+   * @param {string} props.desc Accessibility description.
+   * @returns {void}
    */
   setAccessibilityLabel({ title, desc }) {
     this.a11yTitle = title;
@@ -59,21 +73,24 @@ class Card {
   }
 
   /**
-   * @param {string} value
+   * @param {string} value The CSS to add to the card.
+   * @returns {void}
    */
   setCSS(value) {
     this.css = value;
   }
 
   /**
-   * @param {boolean} value
+   * @param {boolean} value Whether to hide the border or not.
+   * @returns {void}
    */
   setHideBorder(value) {
     this.hideBorder = value;
   }
 
   /**
-   * @param {boolean} value
+   * @param {boolean} value Whether to hide the title or not.
+   * @returns {void}
    */
   setHideTitle(value) {
     this.hideTitle = value;
@@ -83,12 +100,16 @@ class Card {
   }
 
   /**
-   * @param {string} text
+   * @param {string} text The title to set.
+   * @returns {void}
    */
   setTitle(text) {
     this.title = text;
   }
 
+  /**
+   * @returns {string} The rendered card title.
+   */
   renderTitle() {
     const titleText = `
       <text
@@ -125,6 +146,9 @@ class Card {
     `;
   }
 
+  /**
+   * @returns {string} The rendered card gradient.
+   */
   renderGradient() {
     if (typeof this.colors.bgColor !== "object") return "";
 
@@ -148,7 +172,8 @@ class Card {
   }
 
   /**
-   * @param {string} body
+   * @param {string} body The inner body of the card.
+   * @returns {string} The rendered card.
    */
   render(body) {
     return `
@@ -216,4 +241,5 @@ class Card {
   }
 }
 
-module.exports = Card;
+export { Card };
+export default Card;
